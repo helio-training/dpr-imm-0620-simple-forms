@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import Menu from './config/Menu';
+import Routes from './config/Routes';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export default class App extends React.Component {
+  state = {
+    users: []
+  }
+  addUser = (user) => {
+    this.setState(
+      {
+        users: this.state.users.concat([user])
+      },
+      () => console.log(this.state)
+    );
+  } 
+  render(){
+    return (
+      <Router>
+        <div>
+          <Menu/>
 
-export default App;
+          {/* A <Switch> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Routes addUser={user => this.addUser(user)}/>
+        </div>
+      </Router>
+    );
+  }
+}
